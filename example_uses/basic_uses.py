@@ -7,7 +7,7 @@ This accelerator pushes the limits of real-time TTS generation without sacrifici
 Developed by Ranjit Das. I've use the best algorithms and the most efficient data structures to achieve fast real-time speech generation.
 """
 
-import tts_accelarator as tts
+import tts_accelarator as tts  
 from time import perf_counter
 
 
@@ -18,8 +18,14 @@ if __name__ == "__main__":
 
 #──────────────────────────────────────────────────── Initialize the TTS Accelerator ────────────────────────────────────────────────────────────────
     # Define the text to be spoken
-    text = "Hello, 'TTS-Accelerator' achieves near-instant speech generation. converting extremely long texts (up to 16 thousand + characters) into natural voices, high-quality audio within just 2–3 seconds, delivering breakthrough real-time performance without sacrificing voice clarity. Thank you!!"
+    text = (
+        """Hello, 'TTS-Accelerator' achieves near-instant speech generation. 
+        converting extremely long texts (up to 16 thousand + characters)
+        into natural voices, high-quality audio within just 2–3 seconds,
+        delivering breakthrough real-time performance without sacrificing
+        voice clarity. Thank you!!"""
 
+    )
     # Call the speak_text function to process and play the audio
     tts.speak_text(text)
 
