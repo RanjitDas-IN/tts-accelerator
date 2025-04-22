@@ -1,0 +1,6 @@
+.env
+*wav_audio
+*.egg-info
+dist
+Laugh_audio_dataset
+__pycache__
