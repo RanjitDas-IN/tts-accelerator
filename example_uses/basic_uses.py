@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
 #──────────────────────────────────────────────────── Initialize the TTS Accelerator ────────────────────────────────────────────────────────────────
     # Define the text to be spoken
-    text = "Hello, 'TTS-Accelerator' achieves near-instant speech generation. converting extremely long texts (up to 16 thousand + characters) into natural voices, high-quality audio within just 2–3 seconds, delivering breakthrough real-time performance without sacrificing voice clarity."
+    text = "Hello, 'TTS-Accelerator' achieves near-instant speech generation. converting extremely long texts (up to 16 thousand + characters) into natural voices, high-quality audio within just 2–3 seconds, delivering breakthrough real-time performance without sacrificing voice clarity. Thank you!!"
 
     # Call the speak_text function to process and play the audio
     tts.speak_text(text)
@@ -30,22 +30,5 @@ if __name__ == "__main__":
     print(f"Time taken: {end_time - start_time:.2f} seconds")
 # ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-
-import tts_accelarator as tts
-from time import perf_counter
-
-if __name__ == "__main__":
-    start_time = perf_counter()
-
-    # Define the text to be spoken
-    text = "Hello, 'TTS-Accelerator' achieves near-instant speech generation. converting extremely long texts (up to 16 thousand + characters) into natural voices, high-quality audio within just 2–3 seconds, delivering breakthrough real-time performance without sacrificing voice clarity."
-
-    # Call the speak_text function to process and play the audio
-    tts.speak_text(text)
-
-    # Measure the end time
-    end_time = perf_counter()
-    # Print the time taken
-    print(f"Time taken: {end_time - start_time:.2f} seconds")
 
 
