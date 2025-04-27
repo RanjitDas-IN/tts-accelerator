@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tts_accelerator"
+version = "0.0.1"
+authors = [ 
+  { name = "Ranjit Das", email = "ranjitdax89@gmail.com" },
+  { name = "Uday Subba", email = "udaysubba2004@gmail.com" }
+]
+
+description = "Real-time speech generation from short to massive prompts in a single request — seamless and scalable, regardless of the length."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "edge_tts",
+  "sounddevice",
+  "soundfile",
+]
+
+[project.urls]
+Homepage = "https://github.com/RanjitDas-IN/tts-accelerator"
+Issues = "https://github.com/RanjitDas-IN/tts-accelerator"
