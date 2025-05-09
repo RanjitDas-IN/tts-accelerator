@@ -50,7 +50,7 @@ Perfect for:
 - [📚 Examples](#examples)
 - [📦 Requirements](#requirements)
 - [📖 Documentation](#documentation)
-- [👨‍🎓 Creators](#creator)
+- [👨‍🎓 Creators](#creators)
 - [📝 License (MIT)](#license)
 
 
