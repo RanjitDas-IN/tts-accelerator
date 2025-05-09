@@ -4,37 +4,24 @@ Under the hood, it currently leverages *edge-tts* for processing, but the core d
 This accelerator pushes the limits of real-time TTS generation without sacrificing voice quality, making it ideal for advanced, high-performance applications."""
 
 """
-Developed by Ranjit Das. I've use the best algorithms and the most efficient data structures to achieve fast real-time speech generation.
+Developed by Ranjit Das. I've use the best algorithms (producer, consumer pipeline) and the most efficient data structures to achieve fast real-time speech generation.
 """
 
-import tts_accelarator as tts  
-from time import perf_counter
+# Import the library
+import tts_accelerator as tts
 
+# Example long text to demonstrate real-time speech generation.
+text = (
+    "Imagine reading out a 1,000-word story or a chatbot message stream — "
+    "normally, you'd wait several seconds or even minutes before hearing anything. "
+    "But with tts-accelerator, audio playback begins in just 2–3 seconds, "
+    "no matter how long the input is. It streams audio directly from RAM, "
+    "without saving to disk, and keeps the voice natural and fluid throughout. "
+    "This makes it perfect for assistants, narrators, or any real-time voice-based apps."
+)
 
-if __name__ == "__main__":
-# ────────────────────────────────────────────────────  Measure the time taken ────────────────────────────────────────────────────────────────────── 
-    # Measure the time taken for the entire process
-    start_time = perf_counter()
-
-#──────────────────────────────────────────────────── Initialize the TTS Accelerator ────────────────────────────────────────────────────────────────
-    # Define the text to be spoken
-    text = (
-        """Hello, 'TTS-Accelerator' achieves near-instant speech generation. 
-        converting extremely long texts (up to 16 thousand + characters)
-        into natural voices, high-quality audio within just 2–3 seconds,
-        delivering breakthrough real-time performance without sacrificing
-        voice clarity. Thank you!!"""
-
-    )
-    # Call the speak_text function to process and play the audio
-    tts.speak_text(text)
-
-# ──────────────────────────────────────────────────────  Measure the time taken ────────────────────────────────────────────────────────────────────
-    # Measure the end time
-    end_time = perf_counter()
-    # Print the time taken
-    print(f"Time taken: {end_time - start_time:.2f} seconds")
-# ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
+# Speak the text — playback starts almost instantly
+tts.speak_text(text)
+# it will generate the audio in less then 3 seconds regardless of number of lines in the 'text variable'
 
 

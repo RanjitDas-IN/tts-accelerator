@@ -108,6 +108,7 @@ def speak_text(text):
 if __name__ == "__main__":
     from time import perf_counter
     t0 = perf_counter()
+    # Example long text to demonstrate real-time speech generation.
     demo = (
        """Elara traced the faded constellation. on Liam’s forearm with a gentle finger. They lay tangled in the tall grass of the Brahmaputra riverbank, the Guwahati sun painting the sky in hues of mango and rose. The air hummed with the drone of unseen insects and the distant calls of river birds.
 
@@ -141,6 +142,18 @@ They lay back in the grass, the vastness of the Indian sky a silent witness to t
     "No one else sounds this cool, Ranjit.",
     "Recognized instantly. You're unforgettable.",
     "It's you, Ranjit. Let's roll!","""
-    speak_text(demo1)
+
+
+    text = (
+        """Hello, 'TTS-Accelerator' achieves near-instant speech generation. 
+        converting extremely long texts (upto 16 thousand + characters)
+        into natural voices, high-quality audio within just 2–3 seconds,
+        delivering breakthrough real-time performance without sacrificing
+        voice clarity! Thank you!!"""
+
+    )
+    # Call the speak_text function to process and play the audio
+    speak_text(text)
     
     print(f"Done in {perf_counter() - t0:.2f} sec")
+    # Over all Time take to fully run the script 
