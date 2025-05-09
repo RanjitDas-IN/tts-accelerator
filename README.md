@@ -45,7 +45,7 @@ Perfect for:
 - [💡 Insight](#insight)
 - [✨ Key Features](#key-features)
 - [❓ What Problem It Solves](#what-problem-it-solves)
-- [🧠Why we Made This Library](#why-i-made-this-library)
+- [🧠Why we Made This Library](#why-we-made-this-library)
 - [⬇️ Installation](#installation)
 - [📚 Examples](#examples)
 - [📦 Requirements](#requirements)
@@ -160,7 +160,7 @@ Have questions or ideas to improve the project? We’re building this together!
 
 We welcome bug reports, feature requests, or maybe a quick hello if you're enjoying the project!
 ---
-## 👨‍🎓Creators
+## Creators
 Built and maintained by 
 [**Uday Subba**](https://github.com/kisxo) & [**Ranjit Das**](https://github.com/RanjitDas-IN)
 
