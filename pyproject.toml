@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tts_accelerator"
-version = "0.0.1"
+version = "1.0.2"
 authors = [ 
   { name = "Ranjit Das", email = "ranjitdax89@gmail.com" },
   { name = "Uday Subba", email = "udaysubba2004@gmail.com" }
