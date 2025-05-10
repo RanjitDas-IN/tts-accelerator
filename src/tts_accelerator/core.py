@@ -30,8 +30,8 @@ def split_and_merge(text, min_words=5):
         fragments.append(buf.strip())
     return fragments
 
-# --- Audio generation (in-memory via temp file) ---
-async def generate_audio(fragment, voice="en-US-AvaMultilingualNeural"):
+# --- Audio generation (via temp file) --- It is for saving the MP3 takes 3 sec to speak ---
+async def generate_audio_using_tempfile(fragment, voice="en-US-AvaMultilingualNeural"):
     tts = edge_tts.Communicate(fragment, voice=voice)
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
         path = tmp.name
@@ -39,6 +39,26 @@ async def generate_audio(fragment, voice="en-US-AvaMultilingualNeural"):
     data, sr = sf.read(path)
     os.remove(path)
     return data, sr
+
+
+# full RAM Based and super fast, takes 2 sec to speak
+async def generate_audio(fragment, voice="en-US-AvaMultilingualNeural"):
+    # Collect audio from stream into a BytesIO buffer
+    stream = edge_tts.Communicate(text=fragment, voice=voice)
+    mp3_bytes = BytesIO()
+
+    async for chunk in stream.stream():
+        if chunk["type"] == "audio":
+            mp3_bytes.write(chunk["data"])
+
+    mp3_bytes.seek(0)  # Reset buffer to start
+
+    # Decode MP3 in memory using pydub
+    audio = AudioSegment.from_file(mp3_bytes, format="mp3")
+    samples = np.array(audio.get_array_of_samples()).astype(np.float32) / (2 ** 15)
+    data = samples.reshape((-1, audio.channels))
+    return data, audio.frame_rate
+
 
 # --- Playback helper (blocking) ---
 def play_audio(data, samplerate):
@@ -153,7 +173,7 @@ They lay back in the grass, the vastness of the Indian sky a silent witness to t
 
     )
     # Call the speak_text function to process and play the audio
-    speak_text(text)
+    speak_text(demo1)
     
     print(f"Done in {perf_counter() - t0:.2f} sec")
     # Over all Time take to fully run the script 
