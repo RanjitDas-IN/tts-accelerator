@@ -77,10 +77,14 @@ async def consumer(queue: asyncio.Queue, voice: str) -> None:
     await playback
 
 # --- Main entrypoint ---
-def speak_text(text: str, voice: str = "en-US-AvaMultilingualNeural") -> None:
+def speak_text(text: str, voice: str = "en-CA-LiamNeural") -> None:
+# def speak_text(text: str, voice: str = "en-US-AvaMultilingualNeural") -> None:
     """
     Streams text-to-speech for the given text and voice.
     """
+    if voice == "en-US-AvaMultilingualNeural":
+        print(f"It seems Like you are using the dafault voice:{voice}")
+
     queue = asyncio.Queue()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(
@@ -90,13 +94,6 @@ def speak_text(text: str, voice: str = "en-US-AvaMultilingualNeural") -> None:
         )
     )
 
-# if __name__ == "__main__":
-#     from time import perf_counter
-#     voice = "en-US-AvaMultilingualNeural"
-#     demo_text = "Hello from your TTS Accelerator!"
-#     t0 = perf_counter()
-#     speak_text(demo_text, voice)
-#     print(f"Done in {perf_counter() - t0:.2f} sec")
 
 # --- Demo ---
 if __name__ == "__main__":
@@ -149,7 +146,8 @@ if __name__ == "__main__":
 
     )
     # Call the speak_text function to process and play the audio
-    speak_text(text)
+    # speak_text(text)
+    speak_text(text,voice)
     
     print(f"Done in {perf_counter() - t0:.2f} sec")
     # Over all Time take to fully run the script 

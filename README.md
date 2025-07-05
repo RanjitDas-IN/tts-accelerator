@@ -5,7 +5,6 @@
 
 This library works entirely in RAM to make speech super fast using the Edge-TTS engine. Edge-TTS sounds great, but it slows way down when you ask it to read long sentences—that was a big bottleneck for real-time apps. TTS Accelerator fixes that: it starts talking in just 2–3 seconds, even for thousands of words, by streaming audio straight from memory with no file saves or delays. Whether you’re building a chatbot or powering my AI assistant Nisha, who needs instant replies, this tool makes your app feel quick, smart, and alive.
 
-[![PyPI version](https://badge.fury.io/py/tts-accelerator.svg)](https://pypi.org/project/tts-accelerator/)&emsp;&emsp;
 [![Download](https://pepy.tech/badge/tts-accelerator)](https://pepy.tech/project/tts-accelerator)
 
 [![Built by Uday & Ranjit](https://img.shields.io/badge/Built_by-UDAY_&_RANJIT-black?style=rounded&labelColor=blueviolet&color=lightgreen)](https://github.com/RanjitDas-IN/Nisha_rework)
@@ -122,7 +121,9 @@ Simple Usage:
 # Import the library
 import tts_accelerator as tts
 
-# Example long text to demonstrate real-time speech generation.
+# Specify any supported voice from Edge TTS (e.g., en-IN-PrabhatNeural, en-GB-LibbyNeural, en-US-GuyNeural)
+voice ="en-US-AvaMultilingualNeural" #You can pass any voice from edge tts.
+
 text = (
     "Imagine reading out a 1,000-word story or a chatbot message stream — "
     "normally, you'd wait several seconds or even minutes before hearing anything. "
@@ -132,9 +133,9 @@ text = (
     "This makes it perfect for assistants, narrators, or any real-time voice-based apps."
 )
 
+
 # Speak the text — playback starts almost instantly
-tts.speak_text(text)
-# it will generate the audio in less than 3 seconds regardless of number of lines in the 'text variable'
+tts_accelerator.speak_text(text,voice)
 ```
 
 
