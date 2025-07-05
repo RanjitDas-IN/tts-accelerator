@@ -1,10 +1,11 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 
 [project]
 name = "tts_accelerator"
-version = "1.0.2"
+version = "1.0.3"
 authors = [ 
   { name = "Ranjit Das", email = "ranjitdax89@gmail.com" },
   { name = "Uday Subba", email = "udaysubba2004@gmail.com" }
@@ -24,6 +25,8 @@ dependencies = [
   "sounddevice",
   "soundfile",
 ]
+
+[tool.hatch.build.targets.wheel]
 
 [project.urls]
 Homepage = "https://github.com/RanjitDas-IN/tts-accelerator"

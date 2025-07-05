@@ -1,137 +1,110 @@
-import asyncio  #Ultra Optimised code! take 3 sec to generate an audio for 60k+ words (60,000 words)
+import asyncio  # Ultra Optimised code! take 3 sec to generate an audio for 60k+ words (60,000 words)
 import edge_tts
-import re
 import sounddevice as sd
 import soundfile as sf
 import tempfile
 import numpy as np
-import resampy
 from io import BytesIO
 from pydub import AudioSegment
 import os
-from collections import deque
 import spacy
+
 # --- Text splitting & merging ---
 nlp = spacy.blank("en")
 nlp.add_pipe("sentencizer")
 
-# def split_and_merge(text: str) -> list:
-#     doc = nlp(text)
-#     return [sent.text.strip() for sent in nlp(text).sents if sent.text.strip()]
-
-def split_and_merge(text: str) -> list:
+def split_and_merge(text: str) -> list[str]:
+    """
+    Splits input text into chunks: first 5 words as first chunk, then sentence-based chunks.
+    """
     words = text.strip().split()
     if len(words) <= 5:
         return [text.strip()]
-    
     first_chunk = " ".join(words[:5])
     remaining_text = " ".join(words[5:])
-
     doc = nlp(remaining_text)
     remaining_chunks = [sent.text.strip() for sent in doc.sents if sent.text.strip()]
-
     return [first_chunk] + remaining_chunks
 
-# --- Audio generation (via temp file) --- It is for saving the MP3 takes 3 sec to speak ---
-async def generate_audio_using_tempfile(fragment, voice):
-    tts = edge_tts.Communicate(fragment, voice=voice)
-    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
-        path = tmp.name
-    await tts.save(path)
-    data, sr = sf.read(path)
-    os.remove(path)
-    return data, sr
-
-
-# full RAM Based and super fast, takes 2 sec to speak
-async def generate_audio(fragment, voice):
-    # Collect audio from stream into a BytesIO buffer
+# --- Audio generation ---
+async def generate_audio(fragment: str, voice: str) -> tuple[np.ndarray, int]:
+    """
+    Generates audio for a fragment using Edge TTS and returns PCM data and sample rate.
+    """
     stream = edge_tts.Communicate(text=fragment, voice=voice)
     mp3_bytes = BytesIO()
-
     async for chunk in stream.stream():
-        if chunk["type"] == "audio":
-            mp3_bytes.write(chunk["data"])
-
-    mp3_bytes.seek(0)  # Reset buffer to start
-
-    # Decode MP3 in memory using pydub
+        if chunk.get("type") == "audio":
+            mp3_bytes.write(chunk.get("data"))
+    mp3_bytes.seek(0)
     audio = AudioSegment.from_file(mp3_bytes, format="mp3")
-    samples = np.array(audio.get_array_of_samples()).astype(np.float32) / (2 ** 15)
+    samples = np.array(audio.get_array_of_samples(), dtype=np.float32) / (2 ** 15)
     data = samples.reshape((-1, audio.channels))
     return data, audio.frame_rate
 
-
 # --- Playback helper (blocking) ---
-def play_audio(data, samplerate):
+def play_audio(data: np.ndarray, samplerate: int) -> None:
     sd.play(data, samplerate)
     sd.wait()
 
 # --- Producer: split text and enqueue ---
-async def producer(text, queue):
+async def producer(text: str, queue: asyncio.Queue) -> None:
     fragments = split_and_merge(text)
     for frag in fragments:
         await queue.put(frag)
     await queue.put(None)
 
 # --- Consumer: generate while playing ---
-async def consumer(queue):
-    # Get first fragment
+async def consumer(queue: asyncio.Queue, voice: str) -> None:
+    """
+    Consumes text fragments: generates and plays audio sequentially.
+    """
     frag = await queue.get()
     if frag is None:
         return
-
-    # Generate and get first audio
     data, sr = await generate_audio(frag, voice)
-
-    # Start playback in background
     playback = asyncio.create_task(asyncio.to_thread(play_audio, data, sr))
-
-    # Prepare next fragment
     frag = await queue.get()
-    next_task = None
-    if frag is not None:
-        next_task = asyncio.create_task(generate_audio(frag,voice))
-    else:
-        # No more fragments, just await playback
-        await playback
-        return
-
-    # Loop for subsequent fragments
+    next_task = asyncio.create_task(generate_audio(frag, voice)) if frag is not None else None
     while True:
-        # Wait for playback of current to finish
         await playback
-        # Retrieve generated next
-        data, sr = await next_task
-
-        # Start playback for this fragment
-        playback = asyncio.create_task(asyncio.to_thread(play_audio, data, sr))
-
-        # Fetch and schedule generation of the following fragment
-        frag = await queue.get()
-        if frag is None:
-            # No more, await this playback and exit
-            await playback
+        if next_task is None:
             break
-        next_task = asyncio.create_task(generate_audio(frag,voice))
-
-    # End of consumer
+        data, sr = await next_task
+        playback = asyncio.create_task(asyncio.to_thread(play_audio, data, sr))
+        frag = await queue.get()
+        next_task = asyncio.create_task(generate_audio(frag, voice)) if frag is not None else None
+    await playback
 
 # --- Main entrypoint ---
-def speak_text(text):
+def speak_text(text: str, voice: str = "en-US-AvaMultilingualNeural") -> None:
+    """
+    Streams text-to-speech for the given text and voice.
+    """
     queue = asyncio.Queue()
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(asyncio.gather(
-        producer(text, queue),
-        consumer(queue)
-    ))
+    loop.run_until_complete(
+        asyncio.gather(
+            producer(text, queue),
+            consumer(queue, voice)
+        )
+    )
+
+# if __name__ == "__main__":
+#     from time import perf_counter
+#     voice = "en-US-AvaMultilingualNeural"
+#     demo_text = "Hello from your TTS Accelerator!"
+#     t0 = perf_counter()
+#     speak_text(demo_text, voice)
+#     print(f"Done in {perf_counter() - t0:.2f} sec")
 
 # --- Demo ---
 if __name__ == "__main__":
     from time import perf_counter
-    voice ="en-US-AvaMultilingualNeural"
+
+    # Specify any supported voice from Edge TTS (e.g., en-IN-PrabhatNeural, en-GB-LibbyNeural, en-US-GuyNeural)
+    voice ="en-US-AvaMultilingualNeural" #You can pass any voice from edge tts.
     t0 = perf_counter()
-    # Example long text to demonstrate real-time speech generation.
     demo = (
     """
         Elara traced the faded constellation. on Liam’s forearm with a gentle finger. They lay tangled in the tall grass of the Brahmaputra riverbank, the Guwahati sun painting the sky in hues of mango and rose. The air hummed with the drone of unseen insects and the distant calls of river birds.
