@@ -5,6 +5,8 @@
 
 This library works entirely in RAM to make speech super fast using the Edge-TTS engine. Edge-TTS sounds great, but it slows way down when you ask it to read long sentences—that was a big bottleneck for real-time apps. TTS Accelerator fixes that: it starts talking in just 2–3 seconds, even for thousands of words, by streaming audio straight from memory with no file saves or delays. Whether you’re building a chatbot or powering my AI assistant Nisha, who needs instant replies, this tool makes your app feel quick, smart, and alive.
 
+## Link: https://pypi.org/project/tts-accelerator/
+
 [![Download](https://pepy.tech/badge/tts-accelerator)](https://pepy.tech/project/tts-accelerator)
 
 [![Built by Uday & Ranjit](https://img.shields.io/badge/Built_by-UDAY_&_RANJIT-black?style=rounded&labelColor=blueviolet&color=lightgreen)](https://github.com/RanjitDas-IN/Nisha_rework)
