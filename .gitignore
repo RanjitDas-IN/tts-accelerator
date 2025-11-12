@@ -4,4 +4,4 @@
 dist
 __pycache__
 src/tts_accelerator/temporary.py
-model_fine_tune
+model_fine_tuning
