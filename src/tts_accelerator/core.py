@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # Specify any supported voice from Edge TTS (e.g., en-IN-PrabhatNeural, en-GB-LibbyNeural, en-US-GuyNeural)
     voice ="en-US-AvaMultilingualNeural" #You can pass any voice from edge tts.
     t0 = perf_counter()
-    demo = (
+    long_text = (
     """
         Elara traced the faded constellation. on Liam’s forearm with a gentle finger. They lay tangled in the tall grass of the Brahmaputra riverbank, the Guwahati sun painting the sky in hues of mango and rose. The air hummed with the drone of unseen insects and the distant calls of river birds.
 
@@ -125,29 +125,15 @@ if __name__ == "__main__":
         They lay back in the grass, the vastness of the Indian sky a silent witness to their quiet joy. The river flowed on, carrying its secrets to the sea, and for now, under the watchful gaze of the stars, the lovers had found a little more time. Their story, like the intricate patterns Elara wove, was still unfolding, thread by delicate thread.
     """
     )
-    demo1= """    
-    "Hey Ranjit, good to hear you again!",
-    "Welcome back, boss! Ready for action?",
-    "Took you long enough, Ranjit.",
-    "I was almost asleep. Finally, you spoke!",
-    "Voice match confirmed. Access granted.",
-    "Authorization successful. Hello Ranjit.",
-    "If this wasn't your voice, I was ready to call the police!",
-    "Relax, Ranjit, I know it's you. No need to shout.",
-    "Obviously it's you. Who else would dare?",
-    "No one else sounds this cool, Ranjit.",
-    "Recognized instantly. You're unforgettable.",
-    "It's you, Ranjit. Let's roll!"
-    """
 
  
-    text = (
+    mid_text = (
         """It seems like the user is asking about the minimum number of words that the medium .onnx model requires to produce output efficiently. They want to know the word fragment size where the model processes the fastest. Shorter fragments (like 5 words) are quicker, but longer ones (30–50 words) take more time, and it seems 16k words take a very long time. I think they’re looking for a good range to test for minimal processing time, around 10–30 words might be a sweet spot."""
 
     )
     # Call the speak_text function to process and play the audio
     # speak_text(text)
-    speak_text(text,voice)
+    speak_text(long_text,voice)
     
     print(f"Done in {perf_counter() - t0:.2f} sec")
     # Over all Time take to fully run the script 
