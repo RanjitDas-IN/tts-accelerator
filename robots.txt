@@ -1,0 +1,10 @@
+requests.exceptions.RequestException
+X-Robots-Tag: noindex
+
+
+User-agent: *
+Disallow: /private/
+
+
+User-agent: *
+Disallow: /

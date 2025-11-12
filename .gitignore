@@ -1,7 +1,17 @@
 .env
+dist
 *wav_audio
 *.egg-info
-dist
 __pycache__
-src/tts_accelerator/temporary.py
 model_fine_tuning
+src/tts_accelerator/temporary.py
+
+rules_for_GPT/
+main_goal_of_model.mdc
+type_of_data_screap.mdc
+rules_for_Data_Cleaning.mdc
+rules_for_Data_Screaping.mdc
+what_type_of_data_i want.mdc
+rules_for_Data_Preparation.mdc
+rules_for_ML_training_logic.mdc
+rules_for_CNN_training_logic.mdc
